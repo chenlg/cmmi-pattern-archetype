@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>${groupId}</groupId>
+	<artifactId>${projectId}-${artifactId}</artifactId>
+	<version>${version}</version>
+
+	<name>${projectId}-${artifactId}</name>
+	<url>${url}</url>
+	<description>${description} Modules Biz Service Logic Area</description>
+
+	<packaging>jar</packaging>
+
+
+	<dependencies>
+		<!-- TEST begin -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${groupId}</groupId>
+			<artifactId>${projectId}-biz-service-escape</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${groupId}</groupId>
+			<artifactId>${projectId}-core-domain</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${groupId}</groupId>
+			<artifactId>${projectId}-biz-shared</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${groupId}</groupId>
+			<artifactId>${projectId}-common-service-facade</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${groupId}</groupId>
+			<artifactId>${projectId}-common-utils</artifactId>
+		</dependency>
+	</dependencies>
+
+
+</project>

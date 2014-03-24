@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:wsa="http://cxf.apache.org/ws/addressing" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd "
+	default-lazy-init="true">
+
+	<description>soap接口安全认证机制配置</description>
+
+
+	<!--方法2: 1.最简单的方式是使用Http Basic Auth，就是WSS4J的UsernameToken实现方式，优点是简单易用，缺点是每次都会在MESSAGE里面传密码，安全性低。 
+		2.Transport level(传输层内)的实现Https。CXF samples里面有一个例子wsdl_first_https， 很详细的讲了怎么使用。 
+		3.对MESSAGE进行加密和签名(encryption and signing)， -->
+	<bean id="serverPasswordCallback" class="${package}.biz.shared.oauth.OauthHttpBasicCallback"></bean>
+	<bean id="serverWSS4JInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+		<constructor-arg>
+			<map>
+				<entry key="action" value="UsernameToken Timestamp" />
+				<!-- MD5加密明文密码 -->
+				<entry key="passwordType" value="PasswordDigest" />
+				<entry key="passwordCallbackRef">
+					<ref bean="serverPasswordCallback" />
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	<cxf:bus>
+		<cxf:inInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+			<ref bean="serverWSS4JInInterceptor" />
+		</cxf:inInterceptors>
+		<cxf:outInterceptors>
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+		</cxf:outInterceptors>
+		<cxf:properties>
+			<entry key="mtom-enabled" value="true" />
+		</cxf:properties>
+	</cxf:bus>
+
+</beans>

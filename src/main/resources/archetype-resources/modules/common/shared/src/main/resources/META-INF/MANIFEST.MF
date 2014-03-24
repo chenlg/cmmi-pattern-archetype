@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name:  ${projectId}'s Common Shared Area
+Bundle-Version: ${version}
+Bundle-Vendor: ${companyId}
